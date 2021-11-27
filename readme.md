@@ -4,3 +4,4 @@ TBD
 #### links
 - https://developer.okta.com/docs/guides/protect-your-api/python/before-you-begin/
 - https://github.com/okta/samples-python-flask
+- https://github.com/oktadev/okta-fastapi

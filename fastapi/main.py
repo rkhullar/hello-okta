@@ -1,7 +1,15 @@
 import uvicorn
 
-from api.core.config import Settings
-from api.core.factory import create_app
+from config import Settings
+from fastapi import FastAPI
+from router import router
+
+
+def create_app(settings: Settings) -> FastAPI:
+    app = FastAPI(settings=settings)
+    app.include_router(router)
+    return app
+
 
 settings = Settings()
 app = create_app(settings)
