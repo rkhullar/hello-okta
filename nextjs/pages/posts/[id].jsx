@@ -9,13 +9,9 @@ export default function Post({ postData }) {
       <Head>
         <title>{postData.title}</title>
       </Head>
+      <h2>{postData.date}{' '}{postData.id}</h2>
       <h1>{postData.title}</h1>
-      <p>{postData.id}{' '}{postData.date}</p>
-      <h2>
-        <Link href="/">
-          <a>Back to home</a>
-        </Link>
-      </h2>
+      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
     </Layout>
   )
 }
@@ -31,7 +27,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   // Fetch necessary data for the blog post using params.id
-  const postData = getPostData(params.id)
+  const postData = await getPostData(params.id)
   return {
     props: {
       postData
