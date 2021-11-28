@@ -9,6 +9,10 @@ TBD
 - initialize frontend code
 ```sh
 npx create-next-app frontend-nextjs
+cd frontend-nextjs
+touch tsconfig.json
+npm install --save-dev typescript @types/react @types/node
+npm run dev
 ```
 
 #### links
