@@ -9,7 +9,18 @@ const options = {
       clientSecret: process.env.OKTA_CLIENT_SECRET,
       domain: `${process.env.OKTA_DOMAIN}/oauth2/default`
     })
-  ]
+  ],
+  callbacks: {
+    async jwt(token, user, account, profile, isNewUser) {
+      if (account?.accessToken)
+        token.accessToken = account.accessToken
+      return token
+    },
+    async session(session, token) {
+      session.accessToken = token.accessToken
+      return session
+    }
+  }
 }
 
 export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, options)

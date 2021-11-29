@@ -4,6 +4,7 @@ import Layout from '../components/layout'
 
 export default function Profile() {
   const [session, loading] = useSession()
+  console.log(session)
   return (
     <Layout>
       <Head>
