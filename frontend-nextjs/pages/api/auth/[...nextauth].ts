@@ -1,10 +1,10 @@
 import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+import OktaProvider from 'next-auth/providers/okta'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const options = {
   providers: [
-    Providers.Okta({
+    OktaProvider({
       clientId: process.env.OKTA_CLIENT_ID,
       clientSecret: process.env.OKTA_CLIENT_SECRET,
       domain: `${process.env.OKTA_DOMAIN}/oauth2/default`
