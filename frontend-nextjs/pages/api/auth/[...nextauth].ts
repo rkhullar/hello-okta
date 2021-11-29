@@ -7,7 +7,7 @@ const options = {
     Providers.Okta({
       clientId: process.env.OKTA_CLIENT_ID,
       clientSecret: process.env.OKTA_CLIENT_SECRET,
-      domain: process.env.OKTA_DOMAIN
+      domain: `${process.env.OKTA_DOMAIN}/oauth2/default`
     })
   ]
 }
