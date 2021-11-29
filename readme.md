@@ -22,3 +22,4 @@ npm run dev
 - https://nextjs.org/learn/basics/create-nextjs-app
 - https://github.com/vercel/next-learn
 - https://github.com/serverless-nextjs/serverless-next.js
+- https://developer.okta.com/blog/2020/11/13/nextjs-typescript
