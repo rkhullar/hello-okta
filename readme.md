@@ -20,3 +20,5 @@ npm run dev
 - https://github.com/okta/samples-python-flask
 - https://github.com/oktadev/okta-fastapi
 - https://nextjs.org/learn/basics/create-nextjs-app
+- https://github.com/vercel/next-learn
+- https://github.com/serverless-nextjs/serverless-next.js
