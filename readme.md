@@ -35,7 +35,7 @@ include only the groups that are relevant to our application / project.
 - group claims filter: starts with `namespace-project`
 
 The default config for the authorization servers does not include groups in the access token.
-In the okta admin ui you can navigate to the config under settings -> security -> api or go to the following url:
+In the okta admin ui you can navigate to the config under security -> api or go to the following url:
 https://{company}-admin.okta.com/admin/oauth2/as
 
 Edit the default authorization server by adding a `claim` for `groups`. The only other claim that should exist is `sub`.
