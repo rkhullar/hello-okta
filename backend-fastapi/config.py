@@ -20,7 +20,9 @@ class SecuritySettings(BaseSettings):
 
 
 class OktaSettings(BaseSettings):
-    pass
+    okta_domain: str = os.getenv('OKTA_DOMAIN')
+    okta_client_id: str = os.getenv('OKTA_CLIENT_ID')
+    okta_client_secret: str = os.getenv('OKTA_CLIENT_SECRET')
 
 
 class Settings(ProjectSettings, NetworkSettings, SecuritySettings, OktaSettings):

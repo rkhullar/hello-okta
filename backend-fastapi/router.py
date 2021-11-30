@@ -1,3 +1,5 @@
+from config import Settings
+from depends import get_settings
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
@@ -14,3 +16,8 @@ async def token(form_data: OAuth2PasswordRequestForm = Depends()):
 @router.get('/')
 async def index(token: str = Depends(oauth2_scheme)):
     return {'token': token}
+
+
+@router.get('/config')
+async def config(settings: Settings = Depends(get_settings)):
+    return settings
