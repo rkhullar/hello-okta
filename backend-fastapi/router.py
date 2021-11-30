@@ -9,6 +9,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
 @router.post('/token')
 async def token(form_data: OAuth2PasswordRequestForm = Depends()):
+    # TODO: forward to okta issuer and pass token
     access_token = form_data.username + 'token'
     return {'access_token': access_token, 'token_type': 'bearer'}
 
