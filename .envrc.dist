@@ -1,0 +1,6 @@
+source_up
+export DEBUG=1
+export OKTA_DOMAIN='{}'
+export OKTA_CLIENT_ID='{}'
+export OKTA_CLIENT_SECRET='{}'
+export NEXTAUTH_URL=http://localhost:3000

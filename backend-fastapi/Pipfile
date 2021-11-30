@@ -9,7 +9,7 @@ uvicorn = "~=0.15.0"
 pydantic = "~=1.8.0"
 python-jose = "~=3.3.0"
 python-multipart = "~=0.0.0"
-requests = "*"
+httpx = "~=0.21.0"
 
 [dev-packages]
 isort = "~=5.10.0"
