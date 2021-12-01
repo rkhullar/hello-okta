@@ -1,6 +1,7 @@
 import uvicorn
-from config import Settings
 from fastapi import FastAPI
+
+from config import Settings
 from router import router
 
 
