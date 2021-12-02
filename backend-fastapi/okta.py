@@ -20,14 +20,6 @@ class OktaClient:
         response.raise_for_status()
         return response.json()
 
-    def token_exchange(self, code: str, redirect_uri: str) -> dict:
-        payload = dict(grant_type='authorization_code', code=code, redirect_uri=redirect_uri)
-        response = httpx.post(self.metadata['token_endpoint'], auth=(self.client_id, self.client_secret), data=payload)
-        response.raise_for_status()
-        return response.json()
-
-    ### wip
-
     def authenticate(self, username: str, password: str) -> dict:
         url = f'https://{self.domain}/api/v1/authn'
         payload = dict(
@@ -54,6 +46,16 @@ class OktaClient:
             redirect_uri='http://localhost:8000/authorization-code/callback'
         )
         response = httpx.get(url, params=query_params, follow_redirects=True)
+        print('*'*100)
+        print(response.status_code)
+        print(response.text)
+        print('*'*100)
+        response.raise_for_status()
+        return response.json()
+
+    def token_exchange(self, code: str, redirect_uri: str) -> dict:
+        payload = dict(grant_type='authorization_code', code=code, redirect_uri=redirect_uri)
+        response = httpx.post(self.metadata['token_endpoint'], auth=(self.client_id, self.client_secret), data=payload)
         response.raise_for_status()
         return response.json()
 
