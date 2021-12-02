@@ -19,3 +19,9 @@ class OktaClient:
         response = httpx.get(self.metadata_url)
         response.raise_for_status()
         return response.json()
+
+    def token_exchange(self, code: str, redirect_uri: str) -> dict:
+        payload = dict(grant_type='authorization_code', code=code, redirect_uri=redirect_uri)
+        response = httpx.post(self.metadata['token_endpoint'], auth=(self.client_id, self.client_secret), data=payload)
+        response.raise_for_status()
+        return response.json()
