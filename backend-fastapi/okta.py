@@ -53,10 +53,11 @@ class OktaClient:
             response_mode='query',
             redirect_uri='http://localhost:8000/authorization-code/callback'
         )
-        response = httpx.get(url, params=query_params)
-        print(response.text)
+        response = httpx.get(url, params=query_params, follow_redirects=True)
+        response.raise_for_status()
+        return response.json()
 
     def request_token(self, username: str, password: str):
         auth_n_data = self.authenticate(username=username, password=password)
         auth_z_data = self.authorize(session_token=auth_n_data['sessionToken'])
-        print(auth_z_data)
+        return auth_z_data

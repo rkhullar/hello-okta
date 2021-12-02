@@ -1,4 +1,6 @@
+import json
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import requests
 
@@ -55,13 +57,11 @@ class Okta:
 
 
 if __name__ == '__main__':
-    # define all sensitive values
-    okta_domain = ''
-    okta_client_id = ''
-    okta_client_secret = ''
-    test_username = ''
-    test_password = ''
+    # read sensitive values
+    secrets_path = Path(__file__).parent / 'local' / 'secrets.json'
+    with secrets_path.open('r') as f:
+        secrets = json.load(f)
 
-    okta = Okta(domain=okta_domain, client_id=okta_client_id, client_secret=okta_client_secret)
+    okta = Okta(domain=secrets['okta_domain'], client_id=secrets['okta_client_id'], client_secret=secrets['okta_client_secret'])
     # print(okta.metadata)
-    okta.request_token(username=test_username, password=test_password)
+    okta.request_token(username=secrets['test_username'], password=secrets['test_password'])
