@@ -58,7 +58,9 @@ async def config(settings: Settings = Depends(get_settings)):
 async def hello():
     result = list()
     result.append({'message': 'hello'})
-    response = httpx.get('http://localhost:8000/world')
+    world_url = 'http://localhost:8000/world'
+    async with httpx.AsyncClient() as client:
+        response = await client.get(world_url)
     response.raise_for_status()
     result.append(response.json())
     return result
