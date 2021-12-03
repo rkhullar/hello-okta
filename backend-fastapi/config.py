@@ -23,7 +23,12 @@ class OktaSettings(BaseSettings):
     okta_domain: str = os.getenv('OKTA_DOMAIN')
     okta_client_id: str = os.getenv('OKTA_CLIENT_ID')
     okta_client_secret: str = os.getenv('OKTA_CLIENT_SECRET')
+    okta_app_state: str = 'ApplicationState'
 
 
 class Settings(ProjectSettings, NetworkSettings, SecuritySettings, OktaSettings):
-    pass
+    # TODO: try to move properties to class level
+
+    @property
+    def base_url(self) -> str:
+        return os.getenv('FASTAPI_URL') or f'http://localhost:{self.service_port}'

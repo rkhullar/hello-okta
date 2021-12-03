@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from config import Settings
-from depends import get_okta_client, get_settings
+from depends import get_base_url, get_okta_client, get_settings
 from okta import OktaClient
 
 router = APIRouter()
@@ -20,19 +20,19 @@ async def index():
 
 
 @router.post('/token')
-async def token(form_data: OAuth2PasswordRequestForm = Depends(), okta_client: OktaClient = Depends(get_okta_client)):
+async def token(form_data: OAuth2PasswordRequestForm = Depends(), okta_client: OktaClient = Depends(get_okta_client), settings: Settings = Depends(get_settings)):
     return await okta_client.request_token(username=form_data.username, password=form_data.password, options=dict(
-        state='ApplicationState',
-        redirect_uri='http://localhost:8000/authorization-code/callback'
+        state=settings.okta_app_state,
+        redirect_uri=f'{settings.base_url}/authorization-code/callback'
     ))
 
 
 @router.get('/login', response_class=RedirectResponse, status_code=302)
-async def login(okta_client: OktaClient = Depends(get_okta_client)):
+async def login(okta_client: OktaClient = Depends(get_okta_client), settings: Settings = Depends(get_settings)):
     query_params = dict(client_id=okta_client.client_id,
-                        redirect_uri='http://localhost:8000/authorization-code/callback',
+                        redirect_uri=f'{settings.base_url}/authorization-code/callback',
                         scope='openid',
-                        state='ApplicationState',
+                        state=settings.okta_app_state,
                         response_type='code',
                         response_mode='query')
     login_url = await okta_client.authorization_url
@@ -42,8 +42,8 @@ async def login(okta_client: OktaClient = Depends(get_okta_client)):
 
 
 @router.get('/authorization-code/callback')
-async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)):
-    redirect_uri = 'http://localhost:8000/authorization-code/callback'
+async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client), base_url: str = Depends(get_base_url)):
+    redirect_uri = f'{base_url}/authorization-code/callback'
     exchange = await okta_client.token_exchange(code=code, redirect_uri=redirect_uri)
     return {key: exchange[key] for key in ['token_type', 'access_token']}
 
@@ -56,14 +56,16 @@ async def profile(token: str = Depends(oauth2_scheme)):
 
 @router.get('/config')
 async def config(settings: Settings = Depends(get_settings)):
-    return settings
+    data = dict(settings)
+    data['base_url'] = settings.base_url
+    return data
 
 
 @router.get('/hello')
-async def hello():
+async def hello(base_url: str = Depends(get_base_url)):
     result = list()
     result.append({'message': 'hello'})
-    world_url = 'http://localhost:8000/world'
+    world_url = f'{base_url}/world'
     async with httpx.AsyncClient() as client:
         response = await client.get(world_url)
     response.raise_for_status()
