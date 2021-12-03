@@ -1,3 +1,4 @@
+import logging
 from urllib.parse import urlencode
 
 import httpx
@@ -20,7 +21,10 @@ async def index():
 
 @router.post('/token')
 async def token(form_data: OAuth2PasswordRequestForm = Depends(), okta_client: OktaClient = Depends(get_okta_client)):
-    return okta_client.request_token(username=form_data.username, password=form_data.password)
+    return okta_client.request_token(username=form_data.username, password=form_data.password, options=dict(
+        state='ApplicationState',
+        redirect_uri='http://localhost:8000/authorization-code/callback'
+    ))
 
 
 @router.get('/login', response_class=RedirectResponse, status_code=302)
@@ -33,13 +37,14 @@ async def login(okta_client: OktaClient = Depends(get_okta_client)):
                         response_type='code',
                         response_mode='query')
     login_url = auth_url + '?' + urlencode(query_params)
-    print(login_url)
+    logging.info(login_url)
     return login_url
 
 
 @router.get('/authorization-code/callback')
 async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)):
-    exchange = okta_client.token_exchange(code=code, redirect_uri='http://localhost:8000/authorization-code/callback')
+    redirect_uri = 'http://localhost:8000/authorization-code/callback'
+    exchange = await okta_client.token_exchange(code=code, redirect_uri=redirect_uri)
     return {key: exchange[key] for key in ['token_type', 'access_token']}
 
 
