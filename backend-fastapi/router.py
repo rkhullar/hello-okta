@@ -1,12 +1,13 @@
 from urllib.parse import urlencode
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from config import Settings
 from depends import get_okta_client, get_settings
 from okta import OktaClient
+import httpx
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
@@ -51,3 +52,18 @@ async def profile(token: str = Depends(oauth2_scheme)):
 @router.get('/config')
 async def config(settings: Settings = Depends(get_settings)):
     return settings
+
+
+@router.get('/hello')
+async def hello():
+    result = list()
+    result.append({'message': 'hello'})
+    response = httpx.get('http://localhost:8000/world')
+    response.raise_for_status()
+    result.append(response.json())
+    return result
+
+
+@router.get('/world')
+async def world():
+    return {'message': 'world'}
