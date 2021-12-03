@@ -21,7 +21,7 @@ async def index():
 
 @router.post('/token')
 async def token(form_data: OAuth2PasswordRequestForm = Depends(), okta_client: OktaClient = Depends(get_okta_client)):
-    return okta_client.request_token(username=form_data.username, password=form_data.password, options=dict(
+    return await okta_client.request_token(username=form_data.username, password=form_data.password, options=dict(
         state='ApplicationState',
         redirect_uri='http://localhost:8000/authorization-code/callback'
     ))
@@ -29,14 +29,14 @@ async def token(form_data: OAuth2PasswordRequestForm = Depends(), okta_client: O
 
 @router.get('/login', response_class=RedirectResponse, status_code=302)
 async def login(okta_client: OktaClient = Depends(get_okta_client)):
-    auth_url = okta_client.metadata['authorization_endpoint']
     query_params = dict(client_id=okta_client.client_id,
                         redirect_uri='http://localhost:8000/authorization-code/callback',
                         scope='openid',
                         state='ApplicationState',
                         response_type='code',
                         response_mode='query')
-    login_url = auth_url + '?' + urlencode(query_params)
+    login_url = await okta_client.authorization_url
+    login_url += '?' + urlencode(query_params)
     logging.info(login_url)
     return login_url
 

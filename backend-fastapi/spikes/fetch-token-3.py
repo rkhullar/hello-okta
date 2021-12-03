@@ -10,8 +10,8 @@ class ApiClient:
 
     def test_token_flow(self, username: str, password: str):
         response = httpx.post(f'{self.base_url}/token', data=dict(username=username, password=password))
-        print(response)
-        # print(response.json())
+        response.raise_for_status()
+        print(response.json())
 
 
 if __name__ == '__main__':

@@ -56,14 +56,14 @@ class OktaClient:
             response_mode='query',
             redirect_uri=redirect_uri
         )
-        response = await async_httpx(method='get', url=self.authorization_url,
+        response = await async_httpx(method='get', url=await self.authorization_url,
                                      params=query_params, follow_redirects=True)
         response.raise_for_status()
         return response.json()
 
     async def token_exchange(self, code: str, redirect_uri: str) -> dict:
         payload = dict(grant_type='authorization_code', code=code, redirect_uri=redirect_uri)
-        response = await async_httpx(method='post', url=self.token_url,
+        response = await async_httpx(method='post', url=await self.token_url,
                                      auth=(self.client_id, self.client_secret), data=payload)
         response.raise_for_status()
         return response.json()
