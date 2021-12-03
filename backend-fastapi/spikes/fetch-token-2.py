@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+
 from okta import OktaClient
 
 if __name__ == '__main__':

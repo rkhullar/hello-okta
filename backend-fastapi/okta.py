@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 
 import httpx
 
+from httpx_util import wrapped_async_httpx_get
+
 
 @dataclass
 class OktaClient:
@@ -45,11 +47,7 @@ class OktaClient:
             response_mode='query',
             redirect_uri='http://localhost:8000/authorization-code/callback'
         )
-        response = httpx.get(url, params=query_params, follow_redirects=True)
-        print('*'*100)
-        print(response.status_code)
-        print(response.text)
-        print('*'*100)
+        response = wrapped_async_httpx_get(url, params=query_params, follow_redirects=True)
         response.raise_for_status()
         return response.json()
 

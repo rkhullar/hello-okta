@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 
+import httpx
 from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -7,7 +8,6 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from config import Settings
 from depends import get_okta_client, get_settings
 from okta import OktaClient
-import httpx
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
