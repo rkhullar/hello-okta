@@ -1,7 +1,6 @@
 import logging
 from urllib.parse import urlencode
 
-import httpx
 from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm

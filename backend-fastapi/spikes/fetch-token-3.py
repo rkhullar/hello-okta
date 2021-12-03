@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 import httpx
+
 from util import load_secrets
 
 
