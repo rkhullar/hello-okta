@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from config import Settings
 from depends import get_base_url, get_okta_client, get_settings, get_token_data
 from okta import OktaClient
-from util import async_httpx, TokenData
+from util import TokenData, async_httpx
 
 router = APIRouter()
 
