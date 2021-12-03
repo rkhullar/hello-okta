@@ -85,7 +85,7 @@ class OktaClient:
                                            state=options['state'], redirect_uri=options['redirect_uri'])
         return auth_z_data
 
-    async def _get_public_key(self, token: str) -> str:
+    async def _get_public_key(self, token: str) -> 'RSAPublicKey':
         token_header = jwt.get_unverified_header(token)
         jwks_client = await self.jwks_client
         signing_key = jwks_client.get_signing_key(token_header['kid'])
@@ -95,8 +95,7 @@ class OktaClient:
         try:
             public_key = await self._get_public_key(token)
             payload: dict = jwt.decode(token, key=public_key, algorithms=['RS256'], audience='api://default')
-            raise Exception(dict(token_data=payload))
-            return TokenData()
+            return TokenData.from_dict(payload)
         except jwt.exceptions.PyJWTError as err:
             if raise_error:
                 raise err

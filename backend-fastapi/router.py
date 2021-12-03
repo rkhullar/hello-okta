@@ -49,7 +49,7 @@ async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)
 
 @router.get('/profile')
 async def profile(token_data: TokenData = Depends(get_token_data)):
-    return token_data
+    return dict(token_data=token_data)
 
 
 @router.get('/config')
