@@ -10,12 +10,14 @@ async def async_httpx(method: str, *args, **kwargs):
 
 
 def wrapped_async_httpx(method: str, *args, **kwargs):
+    # TODO: this probably isn't needed
     event_loop = asyncio.get_event_loop()
     future = async_httpx(method, *args, **kwargs)
     return event_loop.run_until_complete(future)
 
 
 if __name__ == '__main__':
+    # TODO: move to unit / integration tests
     test_url = 'http://petstore-demo-endpoint.execute-api.com/petstore/pets'
 
     async def test_async():

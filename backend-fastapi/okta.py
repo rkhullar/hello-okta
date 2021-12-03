@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Dict
 
-from httpx_util import async_httpx
+from util import async_httpx
 
 
 @dataclass

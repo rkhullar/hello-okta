@@ -9,6 +9,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from config import Settings
 from depends import get_base_url, get_okta_client, get_settings
 from okta import OktaClient
+from util import async_httpx
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
@@ -66,8 +67,7 @@ async def hello(base_url: str = Depends(get_base_url)):
     result = list()
     result.append({'message': 'hello'})
     world_url = f'{base_url}/world'
-    async with httpx.AsyncClient() as client:
-        response = await client.get(world_url)
+    response = await async_httpx(method='get', url=world_url)
     response.raise_for_status()
     result.append(response.json())
     return result
