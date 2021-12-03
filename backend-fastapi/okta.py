@@ -5,7 +5,7 @@ from typing import Dict, Optional
 import jwt
 from jwt import PyJWKClient
 
-from util import async_httpx
+from util import async_httpx, TokenData
 
 
 @dataclass
@@ -91,10 +91,11 @@ class OktaClient:
         signing_key = jwks_client.get_signing_key(token_header['kid'])
         return signing_key.key
 
-    async def parse_token(self, token: str, raise_error: bool = False) -> Optional[dict]:
+    async def parse_token(self, token: str, raise_error: bool = False) -> Optional[TokenData]:
         try:
             payload: dict = jwt.decode(token, key=self._get_public_key(token), algorithms=['RS256'], audience='api://default')
-            return payload
+            print(payload)
+            return TokenData()
         except jwt.exceptions.PyJWTError as err:
             if raise_error:
                 raise err

@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from config import Settings
 from depends import get_base_url, get_okta_client, get_settings, get_token_data
 from okta import OktaClient
-from util import async_httpx
+from util import async_httpx, TokenData
 
 router = APIRouter()
 
@@ -47,9 +47,9 @@ async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)
     return {key: exchange[key] for key in ['token_type', 'access_token']}
 
 
-# @router.get('/profile')
-# async def profile(token_data: dict = Depends(get_token_data)):
-#     return token_data
+@router.get('/profile')
+async def profile(token_data: TokenData = Depends(get_token_data)):
+    return token_data
 
 
 @router.get('/config')
