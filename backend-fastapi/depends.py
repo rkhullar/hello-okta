@@ -1,8 +1,8 @@
 from fastapi import Depends, Request
+from fastapi.security import OAuth2PasswordBearer
 
 from config import Settings
 from okta import OktaClient
-from fastapi.security import OAuth2PasswordBearer
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 

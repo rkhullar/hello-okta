@@ -47,10 +47,9 @@ async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)
     return {key: exchange[key] for key in ['token_type', 'access_token']}
 
 
-@router.get('/profile')
-async def profile(token_aata: str = Depends(get_token_data)):
-    # TODO: parse token
-    return {'token': token}
+# @router.get('/profile')
+# async def profile(token_data: dict = Depends(get_token_data)):
+#     return token_data
 
 
 @router.get('/config')

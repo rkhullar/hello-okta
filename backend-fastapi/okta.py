@@ -2,9 +2,10 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Dict, Optional
 
-from util import async_httpx
-from jwt import PyJWKClient
 import jwt
+from jwt import PyJWKClient
+
+from util import async_httpx
 
 
 @dataclass
