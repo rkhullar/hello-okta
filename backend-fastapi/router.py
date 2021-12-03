@@ -3,15 +3,14 @@ from urllib.parse import urlencode
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 
 from config import Settings
-from depends import get_base_url, get_okta_client, get_settings
+from depends import get_base_url, get_okta_client, get_settings, get_token_data
 from okta import OktaClient
 from util import async_httpx
 
 router = APIRouter()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
 
 @router.get('/', response_class=RedirectResponse, status_code=302)
@@ -49,7 +48,7 @@ async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)
 
 
 @router.get('/profile')
-async def profile(token: str = Depends(oauth2_scheme)):
+async def profile(token_aata: str = Depends(get_token_data)):
     # TODO: parse token
     return {'token': token}
 

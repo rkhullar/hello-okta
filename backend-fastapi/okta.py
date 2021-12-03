@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Dict
+from typing import Dict, Optional
 
 from util import async_httpx
+from jwt import PyJWKClient
+import jwt
 
 
 @dataclass
@@ -32,6 +34,14 @@ class OktaClient:
     @property
     async def token_url(self) -> str:
         return (await self.metadata)['token_endpoint']
+
+    @property
+    async def keys_url(self) -> str:
+        return (await self.metadata)['jwks_uri']
+
+    @cached_property
+    async def jwks_client(self):
+        return PyJWKClient(await self.keys_url)
 
     async def authenticate(self, username: str, password: str) -> dict:
         payload = dict(
@@ -73,3 +83,17 @@ class OktaClient:
         auth_z_data = await self.authorize(session_token=auth_n_data['sessionToken'],
                                            state=options['state'], redirect_uri=options['redirect_uri'])
         return auth_z_data
+
+    async def _get_public_key(self, token: str) -> str:
+        token_header = jwt.get_unverified_header(token)
+        jwks_client = await self.jwks_client
+        signing_key = jwks_client.get_signing_key(token_header['kid'])
+        return signing_key.key
+
+    async def parse_token(self, token: str, raise_error: bool = False) -> Optional[dict]:
+        try:
+            payload: dict = jwt.decode(token, key=self._get_public_key(token), algorithms=['RS256'], audience='api://default')
+            return payload
+        except jwt.exceptions.PyJWTError as err:
+            if raise_error:
+                raise err
