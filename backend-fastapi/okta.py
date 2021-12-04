@@ -88,10 +88,18 @@ class OktaClient:
 
     async def _get_public_key(self, token: str, raise_error: bool = False) -> 'RSAPublicKey':
         # NOTE: requires pyjwt[crypto] or cryptography
+        # NOTE: import RSAPublicKey from cryptography.hazmat.primitives.asymmetric.rsa
         try:
             token_header = jwt.get_unverified_header(token)
             signing_key = self.jwks_client.get_signing_key(token_header['kid'])
             return signing_key.key
+            # NOTE: can convert to string form with the following
+            '''
+            public_key: RSAPublicKey = signing_key.key
+            # import Encoding and SubjectPublicKeyInfo cryptography.hazmat.primitives._serialization
+            public_key: bytes = public_key.public_bytes(encoding=Encoding.PEM, format=PublicFormat.SubjectPublicKeyInfo)
+            public_key: str = public_key.decode('utf-8')
+            '''
         except jwt.exceptions.PyJWTError as err:
             if raise_error:
                 raise err
