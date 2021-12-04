@@ -35,7 +35,7 @@ include only the groups that are relevant to our application / project.
 - group claims filter: starts with `namespace-project`
 
 The default config for the authorization servers does not include groups in the access token.
-In the okta admin ui you can navigate to the config under settings -> security -> api or go to the following url:
+In the okta admin ui you can navigate to the config under security -> api or go to the following url:
 https://{company}-admin.okta.com/admin/oauth2/as
 
 Edit the default authorization server by adding a `claim` for `groups`. The only other claim that should exist is `sub`.
@@ -62,3 +62,5 @@ The preview should show two tabs for the `id_token` and `token`. The `token` sho
 - https://github.com/vercel/next-learn
 - https://github.com/serverless-nextjs/serverless-next.js
 - https://developer.okta.com/blog/2020/11/13/nextjs-typescript
+- https://developer.okta.com/blog/2020/12/17/build-and-secure-an-api-in-python-with-fastapi
+- https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1
