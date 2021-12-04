@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Dict, Optional
 
+import httpx
 import jwt
 from jwt import PyJWKClient
 
@@ -15,8 +16,8 @@ class OktaClient:
     client_secret: str = field(repr=False)
 
     @cached_property
-    async def metadata(self) -> dict:
-        response = await async_httpx(method='get', url=self.metadata_url)
+    def metadata(self) -> dict:
+        response = httpx.get(url=self.metadata_url)
         response.raise_for_status()
         return response.json()
 
@@ -29,20 +30,20 @@ class OktaClient:
         return f'https://{self.domain}/api/v1/authn'
 
     @property
-    async def authorization_url(self) -> str:
-        return (await self.metadata)['authorization_endpoint']
+    def authorization_url(self) -> str:
+        return self.metadata['authorization_endpoint']
 
     @property
-    async def token_url(self) -> str:
-        return (await self.metadata)['token_endpoint']
+    def token_url(self) -> str:
+        return self.metadata['token_endpoint']
 
     @property
-    async def keys_url(self) -> str:
-        return (await self.metadata)['jwks_uri']
+    def keys_url(self) -> str:
+        return self.metadata['jwks_uri']
 
     @cached_property
-    async def jwks_client(self):
-        return PyJWKClient(await self.keys_url)
+    def jwks_client(self):
+        return PyJWKClient(self.keys_url)
 
     async def authenticate(self, username: str, password: str) -> dict:
         payload = dict(
@@ -67,14 +68,14 @@ class OktaClient:
             response_mode='query',
             redirect_uri=redirect_uri
         )
-        response = await async_httpx(method='get', url=await self.authorization_url,
+        response = await async_httpx(method='get', url=self.authorization_url,
                                      params=query_params, follow_redirects=True)
         response.raise_for_status()
         return response.json()
 
     async def token_exchange(self, code: str, redirect_uri: str) -> dict:
         payload = dict(grant_type='authorization_code', code=code, redirect_uri=redirect_uri)
-        response = await async_httpx(method='post', url=await self.token_url,
+        response = await async_httpx(method='post', url=self.token_url,
                                      auth=(self.client_id, self.client_secret), data=payload)
         response.raise_for_status()
         return response.json()
@@ -87,8 +88,7 @@ class OktaClient:
 
     async def _get_public_key(self, token: str) -> 'RSAPublicKey':
         token_header = jwt.get_unverified_header(token)
-        jwks_client = await self.jwks_client
-        signing_key = jwks_client.get_signing_key(token_header['kid'])
+        signing_key = self.jwks_client.get_signing_key(token_header['kid'])
         return signing_key.key
 
     async def parse_token(self, token: str, raise_error: bool = False) -> Optional[TokenData]:

@@ -1,6 +1,6 @@
+import datetime as dt
 from dataclasses import asdict, dataclass, field
 from typing import List
-import datetime as dt
 
 
 @dataclass
