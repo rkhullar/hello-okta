@@ -1,5 +1,5 @@
 import datetime as dt
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from typing import List
 
 
@@ -15,6 +15,6 @@ class TokenData:
         return cls(
             user_id=data['uid'],
             email=data['sub'],
-            expiration=data['exp'],
+            expiration=dt.datetime.fromtimestamp(data['exp']),
             groups=data['groups']
         )

@@ -6,8 +6,10 @@ from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 from config import Settings
-from depends import get_base_url, get_okta_client, get_settings, get_token_data
+from depends import (get_base_url, get_okta_client, get_settings,
+                     get_token_data, get_user)
 from okta import OktaClient
+from schema import User
 from util import TokenData, async_httpx
 
 router = APIRouter()
@@ -34,8 +36,7 @@ async def login(okta_client: OktaClient = Depends(get_okta_client), settings: Se
                         state=settings.okta_app_state,
                         response_type='code',
                         response_mode='query')
-    login_url = await okta_client.authorization_url
-    login_url += '?' + urlencode(query_params)
+    login_url = okta_client.authorization_url + '?' + urlencode(query_params)
     logging.info(login_url)
     return login_url
 
@@ -47,9 +48,9 @@ async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)
     return {key: exchange[key] for key in ['token_type', 'access_token']}
 
 
-@router.get('/profile')
-async def profile(token_data: TokenData = Depends(get_token_data)):
-    return dict(token_data=token_data)
+@router.get('/profile', response_model=User)
+async def profile(user: User = Depends(get_user)):
+    return user
 
 
 @router.get('/config')

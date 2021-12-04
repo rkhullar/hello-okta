@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from config import Settings
 from okta import OktaClient
+from schema import User
 from util import TokenData
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
@@ -22,3 +23,7 @@ async def get_okta_client(request: Request) -> OktaClient:
 
 async def get_token_data(token: str = Depends(oauth2_scheme), okta_client: OktaClient = Depends(get_okta_client)) -> TokenData:
     return await okta_client.parse_token(token)
+
+
+async def get_user(token_data: TokenData = Depends(get_token_data)) -> User:
+    return User(email=token_data.email, groups=token_data.groups)
