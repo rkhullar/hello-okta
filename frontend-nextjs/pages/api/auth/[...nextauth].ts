@@ -34,4 +34,7 @@ const callbacks = {
 
 const secret = process.env.NEXTAUTH_SECRET
 
-export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, callbacks, secret})
+// export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, callbacks, secret})
+// export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, secret})
+
+export default NextAuth({providers, callbacks, secret})
