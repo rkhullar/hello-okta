@@ -26,6 +26,7 @@ const Layout: React.FunctionComponent<Props> = ({ children, home }) => {
             <a>Home</a>
           </Link>
         )}
+        {' '}
         {button}
       </section>
       <hr/>

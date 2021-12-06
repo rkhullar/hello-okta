@@ -10,8 +10,10 @@ export default function Profile() {
         <title>Profile</title>
       </Head>
       <section>
-        <p>session</p>
-        {JSON.stringify(session)}
+        <p>profile</p>
+        {session && JSON.stringify(session.user)}
+        <p>access_token</p>
+        {session && session.access_token}
       </section>
     </Layout>
   )
