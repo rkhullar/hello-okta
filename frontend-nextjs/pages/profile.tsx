@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/react'
 import Layout from '$components/layout'
 
 export default function Profile() {
-  const [session, loading] = useSession()
+  const { data: session } = useSession()
   return (
     <Layout>
       <Head>
@@ -11,7 +11,9 @@ export default function Profile() {
       </Head>
       <section>
         <p>profile</p>
-        {session && session.accessToken}
+        {session && JSON.stringify(session.user)}
+        <p>access_token</p>
+        {session && session.access_token}
       </section>
     </Layout>
   )

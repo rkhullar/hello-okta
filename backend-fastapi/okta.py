@@ -3,10 +3,8 @@ from functools import cached_property
 from typing import Dict, Optional
 
 import httpx
-import jwt
-from jwt import PyJWKClient
 
-from util import TokenData, async_httpx
+from util import TokenData, TokenFactory, async_httpx
 
 
 @dataclass
@@ -42,8 +40,8 @@ class OktaClient:
         return self.metadata['jwks_uri']
 
     @cached_property
-    def jwks_client(self):
-        return PyJWKClient(self.keys_url)
+    def token_factory(self) -> TokenFactory:
+        return TokenFactory(jwks_url=self.keys_url)
 
     async def authenticate(self, username: str, password: str) -> dict:
         payload = dict(
@@ -86,29 +84,5 @@ class OktaClient:
                                            state=options['state'], redirect_uri=options['redirect_uri'])
         return auth_z_data
 
-    async def _get_public_key(self, token: str, raise_error: bool = False) -> 'RSAPublicKey':
-        # NOTE: requires pyjwt[crypto] or cryptography
-        # NOTE: import RSAPublicKey from cryptography.hazmat.primitives.asymmetric.rsa
-        try:
-            token_header = jwt.get_unverified_header(token)
-            signing_key = self.jwks_client.get_signing_key(token_header['kid'])
-            return signing_key.key
-            # NOTE: can convert to string form with the following
-            '''
-            public_key: RSAPublicKey = signing_key.key
-            # import Encoding and SubjectPublicKeyInfo cryptography.hazmat.primitives._serialization
-            public_key: bytes = public_key.public_bytes(encoding=Encoding.PEM, format=PublicFormat.SubjectPublicKeyInfo)
-            public_key: str = public_key.decode('utf-8')
-            '''
-        except jwt.exceptions.PyJWTError as err:
-            if raise_error:
-                raise err
-
     async def parse_token(self, token: str, raise_error: bool = False) -> Optional[TokenData]:
-        public_key = await self._get_public_key(token)
-        try:
-            payload: dict = jwt.decode(token, key=public_key, algorithms=['RS256'], audience='api://default')
-            return TokenData.from_dict(payload)
-        except jwt.exceptions.PyJWTError as err:
-            if raise_error:
-                raise err
+        return self.token_factory.parse_token(token=token, raise_error=raise_error)
