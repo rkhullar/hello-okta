@@ -3,7 +3,6 @@ import { useSession } from 'next-auth/react'
 import Layout from '$components/layout'
 
 export default function Profile() {
-  // const [session, loading] = useSession()
   const { data: session } = useSession()
   return (
     <Layout>
@@ -11,8 +10,8 @@ export default function Profile() {
         <title>Profile</title>
       </Head>
       <section>
-        <p>profile</p>
-        {session && session.accessToken}
+        <p>session</p>
+        {JSON.stringify(session)}
       </section>
     </Layout>
   )

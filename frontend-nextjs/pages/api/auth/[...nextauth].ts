@@ -11,14 +11,11 @@ const providers = [
 ]
 
 const callbacks = {
-  async jwt({token, user, account, profile, isNewUser}) {
+  async jwt({token, account}) {
     console.log("inside jwt callback")
     console.log('token', token)
-    console.log('user', user)
     console.log('account', account)
-    console.log('profile', profile)
-    console.log('isNewUser', isNewUser)
-    if (account?.accessToken)
+    if (account)
       token.accessToken = account.accessToken
     return token
   },
@@ -28,13 +25,12 @@ const callbacks = {
     console.log('token', token)
     console.log('user', user)
     session.accessToken = token.accessToken
+    console.log('set session.access token')
     return session
   }
 }
 
 const secret = process.env.NEXTAUTH_SECRET
 
-// export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, callbacks, secret})
-// export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, secret})
-
-export default NextAuth({providers, callbacks, secret})
+// export default NextAuth({providers, callbacks, secret})
+export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, callbacks, secret})
