@@ -1,17 +1,17 @@
 import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+import OktaProvider from 'next-auth/providers/okta'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const providers = [
-  Providers.Okta({
+  OktaProvider({
     clientId: process.env.OKTA_CLIENT_ID,
     clientSecret: process.env.OKTA_CLIENT_SECRET,
-    domain: `${process.env.OKTA_DOMAIN}/oauth2/default`
+    issuer: `https://${process.env.OKTA_DOMAIN}/oauth2/default`
   })
 ]
 
 const callbacks = {
-  async jwt(token, user, account, profile, isNewUser) {
+  async jwt({token, user, account, profile, isNewUser}) {
     console.log("inside jwt callback")
     console.log('token', token)
     console.log('user', user)
@@ -22,13 +22,16 @@ const callbacks = {
       token.accessToken = account.accessToken
     return token
   },
-  async session(session, token) {
+  async session({session, token, user}) {
     console.log("inside session callback")
     console.log('session', session)
     console.log('token', token)
+    console.log('user', user)
     session.accessToken = token.accessToken
     return session
   }
 }
 
-export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, callbacks})
+const secret = process.env.NEXTAUTH_SECRET
+
+export default (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, {providers, callbacks, secret})
