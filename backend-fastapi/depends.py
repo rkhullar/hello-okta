@@ -1,4 +1,4 @@
-from fastapi import Depends, Request
+from fastapi import Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
 
 from config import Settings
@@ -26,4 +26,6 @@ async def get_token_data(token: str = Depends(oauth2_scheme), okta_client: OktaC
 
 
 async def get_user(token_data: TokenData = Depends(get_token_data)) -> User:
+    if not token_data:
+        raise HTTPException(status_code=401, detail='could not validate token')
     return User(email=token_data.email, groups=token_data.groups)

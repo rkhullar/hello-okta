@@ -40,13 +40,13 @@ class TokenFactory:
         raw_text: bytes = key.public_bytes(encoding=Encoding.PEM, format=PublicFormat.SubjectPublicKeyInfo)
         return raw_text.decode('utf-8')
 
-    def get_public_key(self, token: str, raise_error: bool = False, to_string: bool = False) -> Union['RSAPublicKey', str]:
+    def get_public_key(self, token: str, raise_error: bool = False, to_string: bool = False) -> Union[RSAPublicKey, str]:
         # NOTE: requires pyjwt[crypto] or cryptography
         try:
             token_header = jwt.get_unverified_header(token)
             signing_key = self.jwks_client.get_signing_key(token_header['kid'])
             public_key: RSAPublicKey = signing_key.key
-            return self.public_key_to_string if to_string else public_key
+            return self.public_key_to_string(public_key) if to_string else public_key
         except jwt.exceptions.PyJWTError as err:
             if raise_error:
                 raise err
