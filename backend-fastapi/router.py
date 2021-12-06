@@ -49,7 +49,7 @@ async def login(okta_client: OktaClient = Depends(get_okta_client), settings: Se
 async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client), base_url: str = Depends(get_base_url)):
     redirect_uri = f'{base_url}/authorization-code/callback'
     exchange = await okta_client.token_exchange(code=code, redirect_uri=redirect_uri)
-    # TODO: redirect if using login flow instead of token flow
+    # TODO: redirect if using login flow instead of token flow?
     return {key: exchange[key] for key in ['token_type', 'access_token']}
 
 
