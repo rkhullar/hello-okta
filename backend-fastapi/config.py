@@ -1,5 +1,6 @@
+import json
 import os
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseSettings
 
@@ -17,6 +18,7 @@ class NetworkSettings(BaseSettings):
 
 class SecuritySettings(BaseSettings):
     secret_key: str = os.getenv('SECRET_KEY')
+    allowed_origins: List[str] = json.loads(os.getenv('ALLOWED_ORIGINS', '[]'))
 
 
 class OktaSettings(BaseSettings):
