@@ -1,9 +1,9 @@
-import {useState} from 'react'
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
 import Layout from '$components/layout'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 
-async function hello(session, callback) {
+async function loadProfile(session, callback) {
   const base_url = 'http://0.0.0.0:8000'
   const response = await fetch(`${base_url}/profile`, {
     headers: {
@@ -14,17 +14,30 @@ async function hello(session, callback) {
   callback(data)
 }
 
+async function loadHello(callback) {
+  const base_url = 'http://0.0.0.0:8000'
+  const response = await fetch(`${base_url}/hello`)
+  const data = await response.json()
+  callback(data)
+}
+
 export default function Backend() {
   const { data: session } = useSession()
-  const [data, setData] = useState(null)
+  const [count, setCount] = useState(0)
+  const [result, setResult] = useState(null)
   return (
     <Layout>
       <Head>
         <title>Backend</title>
       </Head>
       <section>
-        <button onClick={() => hello(session, setData)}>profile</button>
-        <p>{JSON.stringify(data)}</p>
+        <button onClick={() => setCount(count + 1)}>count={count}</button>
+        <button onClick={() => loadProfile(session, setResult)}>profile</button>
+        <button onClick={() => loadHello(setResult)}>hello</button>
+        <button onClick={() => setResult(null)}>clear</button>
+        {result && (
+          <p>{JSON.stringify(result)}</p>
+        )}
       </section>
     </Layout>
   )
