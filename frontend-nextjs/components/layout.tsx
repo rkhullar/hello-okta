@@ -28,6 +28,14 @@ const Layout: React.FunctionComponent<Props> = ({ children, home }) => {
         )}
         {' '}
         {button}
+        {' '}
+        <Link href="/profile">
+          <a>Profile</a>
+        </Link>
+        {' '}
+        <Link href="/backend">
+          <a>Backend</a>
+        </Link>
       </section>
       <hr/>
       <main>{children}</main>
