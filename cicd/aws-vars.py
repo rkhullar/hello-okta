@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 import boto3
 
 
@@ -23,6 +24,5 @@ class Credentials:
 
 
 if __name__ == '__main__':
-    # usage: `python cicd/load-aws.py`
     credentials = Credentials.load()
     credentials.export()
