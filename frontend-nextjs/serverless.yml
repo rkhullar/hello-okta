@@ -1,3 +1,4 @@
 myNextApplication:
   component: "@sls-next/serverless-component@3.6.0"
-  deploy: false
+  inputs:
+    deploy: false
