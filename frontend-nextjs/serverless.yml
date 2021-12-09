@@ -2,8 +2,8 @@ myNextApplication:
   component: "@sls-next/serverless-component@3.6.0"
   inputs:
     deploy: true
-    bucketName: rk-temp
+    bucketName: rk-serverless-test-01-static
     name:
-      defaultLambda: rk-temp-default-lambda
-      apiLambda: rk-temp-api-lambda
-      imageLambda: rk-temp-image-lambda
+      defaultLambda: rk-serverless-test-01-default-lambda
+      apiLambda: rk-serverless-test-01-api-lambda
+      imageLambda: rk-serverless-test-01-image-lambda
