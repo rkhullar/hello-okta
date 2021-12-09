@@ -2,7 +2,7 @@
 
 #### tool versions
 - python 3.8.12
-- node 16.13.0
+- node 16.13.1
 
 #### useful commands
 - initialize frontend code
