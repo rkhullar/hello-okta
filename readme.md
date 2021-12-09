@@ -3,6 +3,7 @@
 #### tool versions
 - python 3.8.12
 - node 16.13.1
+- terraform 1.1.0
 
 #### useful commands
 - initialize frontend code
