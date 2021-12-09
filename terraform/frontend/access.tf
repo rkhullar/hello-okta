@@ -1,6 +1,6 @@
 resource "aws_iam_role" "lambda" {
-  name               = "${var.project}-lambda"
-  tags               = local.common_tags
+  name               = "${var.prefix}-lambda"
+  tags               = var.tags
   assume_role_policy = data.aws_iam_policy_document.lambda-trust.json
 }
 
