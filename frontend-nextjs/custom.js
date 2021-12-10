@@ -6,6 +6,12 @@
 const originalLambda = require('./index')
 
 process.env.TEST_ENV = 'sbx'
+process.env.OKTA_DOMAIN = ''
+process.env.OKTA_CLIENT_ID = ''
+process.env.OKTA_CLIENT_SECRET = ''
+process.env.NEXTAUTH_URL = ''
+process.env.NEXTAUTH_SECRET = ''
+process.env.FASTAPI_URL = ''
 
 exports.handler = async function(event, context) {
   console.log("inside custom handler")
