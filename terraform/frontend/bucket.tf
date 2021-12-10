@@ -1,5 +1,5 @@
 locals {
-  bucket_name = "${var.prefix}-static"
+  bucket_name = "${var.prefix}-static-${var.suffix}"
 }
 
 data "aws_iam_policy_document" "bucket-policy" {

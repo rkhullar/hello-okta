@@ -1,5 +1,5 @@
 resource "aws_cloudfront_origin_access_identity" "default" {
-  comment = "static content for ${var.prefix}"
+  comment = "static content for ${local.bucket_name}"
 }
 
 //resource "aws_cloudfront_distribution" "default" {
