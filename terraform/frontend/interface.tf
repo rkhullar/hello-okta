@@ -29,5 +29,7 @@ output "roles" {
 
 output "secrets" {
   value = {
+    nextjs = module.nextjs-secret.default["name"]
+    hello  = module.hello-secret.default["name"]
   }
 }

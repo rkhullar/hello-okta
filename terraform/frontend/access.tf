@@ -22,3 +22,14 @@ data "aws_iam_policy_document" "s3" {
     resources = ["arn:aws:s3:::${local.bucket_name}/*", "arn:aws:s3:::rk-serverless-test-01-static/*"]
   }
 }
+
+data "aws_iam_policy_document" "lambda-secrets" {
+  statement {
+    actions   = ["secretsmanager:ListSecrets"]
+    resources = ["*"]
+  }
+  statement {
+    actions   = ["secretsmanager:GetSecretValue"]
+    resources = [module.nextjs-secret.default["arn"]]
+  }
+}

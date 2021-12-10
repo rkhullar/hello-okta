@@ -10,3 +10,7 @@ variable "tags" {
 variable "data" {
   type = map(string)
 }
+
+output "default" {
+  value = aws_secretsmanager_secret.default
+}
