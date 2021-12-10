@@ -8,3 +8,4 @@ myNextApplication:
       defaultLambda: rk-serverless-test-01-default-lambda
       apiLambda: rk-serverless-test-01-api-lambda
       imageLambda: rk-serverless-test-01-image-lambda
+
