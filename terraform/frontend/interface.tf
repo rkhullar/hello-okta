@@ -20,3 +20,14 @@ variable "lambda_secrets" {
   type    = map(string)
   default = {}
 }
+
+output "roles" {
+  value = {
+    lambda = module.lambda-role.default["name"]
+  }
+}
+
+output "secrets" {
+  value = {
+  }
+}
