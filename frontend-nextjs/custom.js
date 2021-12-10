@@ -6,21 +6,22 @@
 const AWS = require('aws-sdk')
 const originalLambda = require('./index')
 
-// START - Secrets Lib
-const secrets_manager = new AWS.SecretsManager({region: 'us-east-1'});
-async function read_secret_arn(name: string) {
+// START - Secrets Lib - # without TS
+const secrets_manager = new AWS.SecretsManager({region: 'us-east-1'})
+
+async function read_secret_arn(name) {
   const filter = {Key: 'name', Values: [name]}
   const response = await secrets_manager.listSecrets({MaxResults: 1, Filters: [filter]})
   const secret_data = response.SecretList[0]
   return secret_data.ARN
 }
 
-async function load_secret_arn(arn: string) {
+async function load_secret_arn(arn) {
   const response = await secrets_manager.getSecretValue({SecretId: arn})
   return JSON.parse(response.SecretString)
 }
 
-async function load_secret(name: string) {
+async function load_secret(name) {
   const arn = await read_secret_arn(name)
   return await load_secret_arn(arn)
 }
@@ -49,7 +50,7 @@ exports.handler = async function(event, context) {
   console.log(context)
 
   // TODO: dynamically infer secret name somehow; should work with multiple environments
-  const secret_name = 'serverless-poc-hello-sbx'
+  const secret_name = 'serverless-poc-nextjs-sbx'
   if (!state_counter) {
     const secret_data = await load_secret(secret_name)
     inject_envs(secret_data)
