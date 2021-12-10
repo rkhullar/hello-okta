@@ -4,8 +4,9 @@ module "lambda-role" {
   tags       = var.tags
   principals = [{ type = "Service", identifiers = ["lambda.amazonaws.com", "edgelambda.amazonaws.com"] }]
   inline_policies = {
-    logs = data.aws_iam_policy_document.logs.json
-    s3   = data.aws_iam_policy_document.s3.json
+    logs    = data.aws_iam_policy_document.logs.json
+    s3      = data.aws_iam_policy_document.s3.json
+    secrets = data.aws_iam_policy_document.lambda-secrets.json
   }
 }
 
