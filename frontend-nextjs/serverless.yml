@@ -1,6 +1,7 @@
 myNextApplication:
   component: "@sls-next/serverless-component@3.6.0"
   inputs:
+    handler: custom.handler
     deploy: true
     bucketName: rk-serverless-test-01-static
     name:

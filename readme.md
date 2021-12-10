@@ -66,3 +66,5 @@ The preview should show two tabs for the `id_token` and `token`. The `token` sho
 - https://developer.okta.com/blog/2020/12/17/build-and-secure-an-api-in-python-with-fastapi
 - https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1
 - https://github.com/serverless/components
+- https://github.com/serverless-nextjs/serverless-next.js/pull/649
+- 
