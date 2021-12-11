@@ -1,0 +1,11 @@
+myNextApplication:
+  component: "@sls-next/serverless-component@3.6.0"
+  inputs:
+    handler: custom.handler
+    deploy: false
+#    bucketName: serverless-poc-static-sbx
+#    name:
+#      defaultLambda: serverless-poc-default-sbx
+#      apiLambda: serverless-poc-api-sbx
+#      imageLambda: serverless-poc-image-sbx
+#    roleArn: arn:aws:iam::REDACTED:role/serverless-poc-lambda-sbx
