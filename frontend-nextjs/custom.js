@@ -33,6 +33,8 @@ function set_env(key, val) {
 
 function inject_envs(data) {
   // TODO: cleanup with loop?
+  set_env('PROJECT', data.project)
+  set_env('ENVIRONMENT', data.environment)
   set_env('OKTA_DOMAIN', data.okta_domain)
   set_env('OKTA_DOMAIN', data.okta_domain)
   set_env('OKTA_CLIENT_ID', data.okta_client_id)
@@ -40,7 +42,14 @@ function inject_envs(data) {
   set_env('NEXTAUTH_URL', data.next_auth_url)
   set_env('NEXTAUTH_SECRET', data.next_auth_secret)
   set_env('FASTAPI_URL', data.fast_api_url)
-  // TODO: inject metadata: project and environment
+}
+
+function parse_lambda_function_name(name) {
+  const pattern = /^(?<region>[\w-]+)\.(?<prefix>[\w-]+)-(?<base>api|default)-(?<suffix>[\w-]+)$/s
+  const match_object = name.match(pattern)
+  if (!match_object)
+    throw {detail: 'bad name', example: 'serverless-poc-api-sbx', found: name, regex: pattern}
+  return match_object.groups
 }
 
 let state_counter = 0
@@ -49,8 +58,8 @@ exports.handler = async function(event, context) {
   // console.log('inside custom handler')
   console.log(context)
   if (!state_counter) {
-    const region_function_name = context.functionName
-    const secret_name = 'serverless-poc-nextjs-sbx'
+    const name_parts = parse_lambda_function_name(context.functionName)
+    const secret_name = `${name_parts.prefix}-nextjs-${name_parts.suffix}`
     const secret_data = await load_secret(secret_name)
     inject_envs(secret_data)
   }

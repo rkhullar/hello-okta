@@ -2,7 +2,7 @@ function parse_lambda_function_name(name) {
   const pattern = /^(?<region>[\w-]+)\.(?<prefix>[\w-]+)-(?<base>api|default)-(?<suffix>[\w-]+)$/s
   const match_object = name.match(pattern)
   if (!match_object)
-    throw {detail: 'bad name', example: 'serverless-poc-api-sbx', found: text}
+    throw {detail: 'bad name', example: 'serverless-poc-api-sbx', found: name, regex: pattern}
   return match_object.groups
 }
 
