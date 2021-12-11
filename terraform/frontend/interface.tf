@@ -36,6 +36,11 @@ variable "lambda_timeout" {
   default = 10
 }
 
+variable "enable_cloudfront" {
+  type    = bool
+  default = false
+}
+
 output "buckets" {
   value = {
     static = module.static-bucket.name

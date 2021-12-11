@@ -11,7 +11,7 @@ resource "aws_cloudfront_origin_access_identity" "default" {
 resource "aws_cloudfront_distribution" "default" {
   aliases         = []
   comment         = local.static_bucket
-  enabled         = false
+  enabled         = var.enable_cloudfront
   is_ipv6_enabled = true
   price_class     = var.price_class
   tags            = var.tags
@@ -36,14 +36,14 @@ resource "aws_cloudfront_distribution" "default" {
 
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["GET", "HEAD"]
-    compress               = true
     target_origin_id       = local.origins.default
+    compress               = true
     viewer_protocol_policy = "redirect-to-https"
+    cached_methods         = ["GET", "HEAD"]
 
     forwarded_values {
-      query_string = true
       headers      = ["Authorization", "Host"]
+      query_string = true
       cookies {
         forward = "all"
       }
@@ -58,6 +58,23 @@ resource "aws_cloudfront_distribution" "default" {
     lambda_function_association {
       event_type = "origin-response"
       lambda_arn = module.default-lambda.output["qualified_arn"]
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "_next/static/*"
+    target_origin_id       = local.origins.default
+    compress               = true
+    viewer_protocol_policy = "https-only"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+
+    forwarded_values {
+      headers      = []
+      query_string = false
+      cookies {
+        forward = "none"
+      }
     }
   }
 }
