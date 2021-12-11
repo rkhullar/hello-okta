@@ -23,6 +23,11 @@ variable "template" {
   type = string
 }
 
+variable "publish" {
+  type    = bool
+  default = false
+}
+
 variable "memory" {
   type    = number
   default = 128

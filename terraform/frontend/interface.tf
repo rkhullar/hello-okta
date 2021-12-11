@@ -60,3 +60,10 @@ output "secrets" {
     nextjs = module.nextjs-secret.name
   }
 }
+
+output "cloudfront" {
+  value = {
+    id     = aws_cloudfront_distribution.default.id
+    domain = aws_cloudfront_distribution.default.domain_name
+  }
+}

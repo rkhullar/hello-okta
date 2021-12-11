@@ -6,6 +6,7 @@ module "default-lambda" {
   handler  = var.lambda_handler
   runtime  = "nodejs14.x"
   template = "nodejs/default"
+  publish  = true
   memory   = var.lambda_memory
   timeout  = var.lambda_timeout
 }
@@ -18,6 +19,7 @@ module "api-lambda" {
   handler  = var.lambda_handler
   runtime  = "nodejs14.x"
   template = "nodejs/default"
+  publish  = true
   memory   = var.lambda_memory
   timeout  = var.lambda_timeout
 }

@@ -6,6 +6,7 @@ resource "aws_lambda_function" "default" {
   runtime          = var.runtime
   memory_size      = var.memory
   timeout          = var.timeout
+  publish          = var.publish
   filename         = data.archive_file.template.output_path
   source_code_hash = data.archive_file.template.output_base64sha256
 
