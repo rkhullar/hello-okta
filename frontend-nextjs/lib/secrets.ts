@@ -1,3 +1,4 @@
+/*
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 const secrets_manager = new SecretsManager({region: 'us-east-1'});
 
@@ -17,3 +18,6 @@ async function load_secret(name: string) {
   const arn = await read_secret_arn(name)
   return await load_secret_arn(arn)
 }
+*/
+
+export {}
