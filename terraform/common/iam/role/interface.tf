@@ -37,6 +37,10 @@ variable "instance_profile" {
   default = false
 }
 
+output "name" {
+  value = aws_iam_role.default.name
+}
+
 output "default" {
   value = aws_iam_role.default
 }

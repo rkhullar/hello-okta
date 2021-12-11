@@ -33,6 +33,10 @@ variable "timeout" {
   default = 3
 }
 
-output "default" {
+output "name" {
+  value = aws_lambda_function.default.function_name
+}
+
+output "output" {
   value = aws_lambda_function.default
 }

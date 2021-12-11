@@ -11,6 +11,10 @@ variable "data" {
   type = map(string)
 }
 
-output "default" {
+output "name" {
+  value = aws_secretsmanager_secret.default.name
+}
+
+output "output" {
   value = aws_secretsmanager_secret.default
 }

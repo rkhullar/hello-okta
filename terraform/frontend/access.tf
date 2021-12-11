@@ -31,6 +31,6 @@ data "aws_iam_policy_document" "lambda-secrets" {
   }
   statement {
     actions   = ["secretsmanager:GetSecretValue"]
-    resources = [module.nextjs-secret.default["arn"]]
+    resources = [module.nextjs-secret.output["arn"]]
   }
 }

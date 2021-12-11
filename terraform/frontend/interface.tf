@@ -21,15 +21,43 @@ variable "lambda_secrets" {
   default = {}
 }
 
+variable "lambda_handler" {
+  type    = string
+  default = "index.handler"
+}
+
+variable "lambda_memory" {
+  type    = number
+  default = 512
+}
+
+variable "lambda_timeout" {
+  type    = number
+  default = 10
+}
+
+output "buckets" {
+  value = {
+    static = module.static-bucket.name
+  }
+}
+
+output "lambdas" {
+  value = {
+    default = module.default-lambda.name
+    api     = module.api-lambda.name
+  }
+}
+
 output "roles" {
   value = {
-    lambda = module.lambda-role.default["name"]
+    lambda = module.lambda-role.name
   }
 }
 
 output "secrets" {
   value = {
-    nextjs = module.nextjs-secret.default["name"]
-    hello  = module.hello-secret.default["name"]
+    nextjs = module.nextjs-secret.name
+    hello  = module.hello-secret.name
   }
 }
