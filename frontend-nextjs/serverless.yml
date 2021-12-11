@@ -3,9 +3,9 @@ myNextApplication:
   inputs:
     handler: custom.handler
     deploy: false
-#    bucketName: rk-serverless-test-01-static
+#    bucketName: serverless-poc-static-sbx
 #    name:
-#      defaultLambda: rk-serverless-test-01-default-lambda
-#      apiLambda: rk-serverless-test-01-api-lambda
-#      imageLambda: rk-serverless-test-01-image-lambda
+#      defaultLambda: serverless-poc-default-sbx
+#      apiLambda: serverless-poc-api-sbx
+#      imageLambda: serverless-poc-image-sbx
 #    roleArn: arn:aws:iam::REDACTED:role/serverless-poc-lambda-sbx

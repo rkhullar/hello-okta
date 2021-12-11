@@ -46,16 +46,13 @@ function inject_envs(data) {
 let state_counter = 0
 
 exports.handler = async function(event, context) {
-  console.log("inside custom handler")
+  // console.log('inside custom handler')
   console.log(context)
-
-  // TODO: dynamically infer secret name somehow; should work with multiple environments
-  const secret_name = 'serverless-poc-nextjs-sbx'
   if (!state_counter) {
+    const region_function_name = context.functionName
+    const secret_name = 'serverless-poc-nextjs-sbx'
     const secret_data = await load_secret(secret_name)
     inject_envs(secret_data)
   }
-
-  context.callbackWaitsForEmptyEventLoop = false // TODO: verify needed
   return originalLambda.handler(event, context)
 }
