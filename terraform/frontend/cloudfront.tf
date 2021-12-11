@@ -39,12 +39,76 @@ resource "aws_cloudfront_distribution" "default" {
     }
   }
 
-  default_cache_behavior {
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+  ordered_cache_behavior {
+    path_pattern           = "_next/static/*"
     target_origin_id       = local.origins.default
     compress               = true
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = "https-only"
+    allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
+    default_ttl            = local.time.day
+    max_ttl                = local.time.year
+
+    forwarded_values {
+      headers      = []
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "static/*"
+    target_origin_id       = local.origins.default
+    compress               = true
+    viewer_protocol_policy = "https-only"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    default_ttl            = local.time.day
+    max_ttl                = local.time.year
+
+    forwarded_values {
+      headers      = []
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "api/*"
+    target_origin_id       = local.origins.default
+    compress               = true
+    viewer_protocol_policy = "https-only"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods         = ["GET", "HEAD"]
+    max_ttl                = local.time.year
+
+    forwarded_values {
+      headers      = ["Authorization", "Host"]
+      query_string = true
+      cookies {
+        forward = "all"
+      }
+    }
+
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = module.api-lambda.output["qualified_arn"]
+      include_body = true
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "_next/data/*"
+    target_origin_id       = local.origins.default
+    compress               = true
+    viewer_protocol_policy = "https-only"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    max_ttl                = local.time.year
 
     forwarded_values {
       headers      = ["Authorization", "Host"]
@@ -66,22 +130,31 @@ resource "aws_cloudfront_distribution" "default" {
     }
   }
 
-  ordered_cache_behavior {
-    path_pattern           = "_next/static/*"
+  default_cache_behavior {
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     target_origin_id       = local.origins.default
     compress               = true
-    viewer_protocol_policy = "https-only"
-    allowed_methods        = ["GET", "HEAD"]
+    viewer_protocol_policy = "redirect-to-https"
     cached_methods         = ["GET", "HEAD"]
-    default_ttl            = local.time.day
     max_ttl                = local.time.year
 
     forwarded_values {
-      headers      = []
-      query_string = false
+      headers      = ["Authorization", "Host"]
+      query_string = true
       cookies {
-        forward = "none"
+        forward = "all"
       }
+    }
+
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = module.default-lambda.output["qualified_arn"]
+      include_body = true
+    }
+
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = module.default-lambda.output["qualified_arn"]
     }
   }
 }
