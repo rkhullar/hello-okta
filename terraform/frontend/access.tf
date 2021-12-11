@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "logs" {
 data "aws_iam_policy_document" "s3" {
   statement {
     actions   = ["s3:GetObject", "s3:PutObject"]
-    resources = ["arn:aws:s3:::${local.static_bucket}/*", "arn:aws:s3:::rk-serverless-test-01-static/*"]
+    resources = ["arn:aws:s3:::${local.static_bucket}/*"]
   }
 }
 
