@@ -2,6 +2,11 @@ locals {
   origins = {
     default = "S3-${local.static_bucket}"
   }
+  time = {
+    hour = 3600
+    day  = 3600 * 24
+    year = 3600 * 24 * 365
+  }
 }
 
 resource "aws_cloudfront_origin_access_identity" "default" {
@@ -68,6 +73,8 @@ resource "aws_cloudfront_distribution" "default" {
     viewer_protocol_policy = "https-only"
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
+    default_ttl            = local.time.day
+    max_ttl                = local.time.year
 
     forwarded_values {
       headers      = []
