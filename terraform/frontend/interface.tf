@@ -58,6 +58,5 @@ output "roles" {
 output "secrets" {
   value = {
     nextjs = module.nextjs-secret.name
-    hello  = module.hello-secret.name
   }
 }
