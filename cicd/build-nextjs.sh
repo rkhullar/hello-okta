@@ -17,4 +17,4 @@ cd "${build_path}/assets" && zip -r9 "${archive_path}/assets.zip" *
 cd "${build_path}/default-lambda" && zip -r9 "${archive_path}/default-lambda.zip" *
 cd "${build_path}/api-lambda" && zip -r9 "${archive_path}/api-lambda.zip" *
 cd "${build_path}/regeneration-lambda" && zip -r9 "${archive_path}/regeneration-lambda.zip" *
-cd "${build_path}/image-lambda" && zip -r9 "${archive_path}/image-lambda.zip" *
+# cd "${build_path}/image-lambda" && zip -r9 "${archive_path}/image-lambda.zip" *
