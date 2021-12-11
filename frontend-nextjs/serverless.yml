@@ -2,10 +2,10 @@ myNextApplication:
   component: "@sls-next/serverless-component@3.6.0"
   inputs:
     handler: custom.handler
-    deploy: true
-    bucketName: rk-serverless-test-01-static
-    name:
-      defaultLambda: rk-serverless-test-01-default-lambda
-      apiLambda: rk-serverless-test-01-api-lambda
-      imageLambda: rk-serverless-test-01-image-lambda
-    roleArn: arn:aws:iam::REDACTED:role/serverless-poc-lambda-sbx
+    deploy: false
+#    bucketName: rk-serverless-test-01-static
+#    name:
+#      defaultLambda: rk-serverless-test-01-default-lambda
+#      apiLambda: rk-serverless-test-01-api-lambda
+#      imageLambda: rk-serverless-test-01-image-lambda
+#    roleArn: arn:aws:iam::REDACTED:role/serverless-poc-lambda-sbx
