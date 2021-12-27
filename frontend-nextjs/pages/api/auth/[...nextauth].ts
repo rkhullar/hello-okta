@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth'
 import OktaProvider from 'next-auth/providers/okta'
-import GoogleProvider from 'next-auth/providers/google'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const providers = [
@@ -8,10 +7,6 @@ const providers = [
     clientId: process.env.OKTA_CLIENT_ID,
     clientSecret: process.env.OKTA_CLIENT_SECRET,
     issuer: `https://${process.env.OKTA_DOMAIN}/oauth2/default`
-  }),
-  GoogleProvider({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET
   })
 ]
 
