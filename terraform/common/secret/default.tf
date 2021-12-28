@@ -5,9 +5,9 @@ resource "aws_secretsmanager_secret" "default" {
 }
 
 resource "aws_secretsmanager_secret_version" "default" {
-  secret_id      = aws_secretsmanager_secret.default.id
-  secret_string  = jsonencode(var.data)
-  version_stages = ["AWSCURRENT", random_uuid.default.id]
+  for_each      = toset([random_uuid.default.id])
+  secret_id     = aws_secretsmanager_secret.default.id
+  secret_string = jsonencode(var.data)
   lifecycle {
     ignore_changes = [secret_string]
   }
