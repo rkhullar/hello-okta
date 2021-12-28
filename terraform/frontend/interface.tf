@@ -21,6 +21,11 @@ variable "lambda_secrets" {
   default = {}
 }
 
+variable "secrets_ignore" {
+  type    = list(string)
+  default = []
+}
+
 variable "lambda_handler" {
   type    = string
   default = "index.handler"

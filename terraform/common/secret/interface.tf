@@ -11,6 +11,16 @@ variable "data" {
   type = map(string)
 }
 
+variable "preserve" {
+  type    = list(string)
+  default = null
+}
+
+variable "ignore" {
+  type    = list(string)
+  default = null
+}
+
 output "name" {
   value = aws_secretsmanager_secret.default.name
 }
