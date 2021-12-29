@@ -46,6 +46,11 @@ variable "enable_cloudfront" {
   default = false
 }
 
+variable "enable_secrets" {
+  type    = bool
+  default = true
+}
+
 output "buckets" {
   value = {
     static = module.static-bucket.name

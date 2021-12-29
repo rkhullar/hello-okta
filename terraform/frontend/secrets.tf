@@ -4,4 +4,5 @@ module "nextjs-secret" {
   tags   = var.tags
   data   = var.lambda_secrets
   ignore = var.secrets_ignore
+  enable = var.enable_secrets
 }

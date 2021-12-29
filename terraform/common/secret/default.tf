@@ -5,7 +5,7 @@ resource "aws_secretsmanager_secret" "default" {
 }
 
 resource "aws_secretsmanager_secret_version" "default" {
-  for_each      = toset([random_uuid.default.id])
+  for_each      = toset(var.enable ? [random_uuid.default.id] : [])
   secret_id     = aws_secretsmanager_secret.default.id
   secret_string = jsonencode(var.data)
   lifecycle {

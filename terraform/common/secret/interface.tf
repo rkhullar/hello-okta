@@ -21,6 +21,11 @@ variable "ignore" {
   default = null
 }
 
+variable "enable" {
+  type    = bool
+  default = true
+}
+
 output "name" {
   value = aws_secretsmanager_secret.default.name
 }
