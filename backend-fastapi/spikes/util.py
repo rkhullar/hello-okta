@@ -10,6 +10,7 @@ class Secrets:
     okta_client_secret: str
     test_username: str
     test_password: str
+    okta_api_key: str = None
 
 
 def load_secrets() -> Secrets:
