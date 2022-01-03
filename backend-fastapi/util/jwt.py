@@ -22,7 +22,7 @@ class TokenData:
             user_id=data['uid'],
             email=data['sub'],
             expiration=dt.datetime.fromtimestamp(data['exp']),
-            groups=data['groups']
+            groups=data.get('groups') or list()
         )
 
 

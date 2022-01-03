@@ -21,6 +21,11 @@ variable "lambda_secrets" {
   default = {}
 }
 
+variable "secrets_ignore" {
+  type    = list(string)
+  default = []
+}
+
 variable "lambda_handler" {
   type    = string
   default = "index.handler"
@@ -39,6 +44,11 @@ variable "lambda_timeout" {
 variable "enable_cloudfront" {
   type    = bool
   default = false
+}
+
+variable "enable_secrets" {
+  type    = bool
+  default = true
 }
 
 output "buckets" {

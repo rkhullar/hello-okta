@@ -58,14 +58,6 @@ async def profile(user: User = Depends(get_user)):
     return user
 
 
-@router.get('/config')
-async def config(settings: Settings = Depends(get_settings)):
-    # TODO: define response schema; lock down?
-    data = dict(settings)
-    data['base_url'] = settings.base_url
-    return data
-
-
 @router.get('/hello')
 async def hello(base_url: str = Depends(get_base_url)):
     result = list()
