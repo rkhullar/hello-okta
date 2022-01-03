@@ -14,14 +14,11 @@ resource "aws_secretsmanager_secret_version" "default" {
 }
 
 resource "random_uuid" "default" {
-  keepers = { for key in local.keys_to_keep : key => var.data[key] }
+  keepers = { for key in local.keys_to_track : key => var.data[key] }
 }
 
 locals {
-  keys_from_data   = keys(var.data)
-  keys_to_preserve = coalesce(var.preserve, [])
-  keys_to_ignore   = coalesce(var.ignore, [])
-  keys_from_ignore = setsubtract(local.keys_from_data, local.keys_to_ignore)
-  keys_to_keep_1   = var.ignore == null ? local.keys_to_preserve : local.keys_from_ignore
-  keys_to_keep     = setunion(local.keys_to_preserve, local.keys_to_keep_1)
+  keys_to_track_1 = var.tracking == "preserve" ? var.preserve : keys(var.data)
+  keys_to_track_2 = setunion(local.keys_to_track_1, var.preserve)
+  keys_to_track   = setsubtract(local.keys_to_track_2, var.ignore)
 }
