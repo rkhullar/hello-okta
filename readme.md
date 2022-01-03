@@ -87,15 +87,16 @@ For reference here are two screenshots:
 - [mapping](docs/images/group-prefix-example.png)
 
 #### links
-- https://developer.okta.com/docs/guides/protect-your-api/python/before-you-begin/
-- https://github.com/okta/samples-python-flask
-- https://github.com/oktadev/okta-fastapi
-- https://nextjs.org/learn/basics/create-nextjs-app
-- https://github.com/vercel/next-learn
-- https://github.com/serverless-nextjs/serverless-next.js
+- https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1
 - https://developer.okta.com/blog/2020/11/13/nextjs-typescript
 - https://developer.okta.com/blog/2020/12/17/build-and-secure-an-api-in-python-with-fastapi
-- https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1
-- https://github.com/serverless/components
-- https://github.com/serverless-nextjs/serverless-next.js/pull/649
+- https://developer.okta.com/docs/guides/customize-tokens-groups-claim/main
+- https://developer.okta.com/docs/guides/protect-your-api/python/before-you-begin
+- https://github.com/okta/samples-python-flask
+- https://github.com/oktadev/okta-fastapi
+- https://github.com/serverless-nextjs/serverless-next.js
 - https://github.com/serverless-nextjs/serverless-next.js/issues/184
+- https://github.com/serverless-nextjs/serverless-next.js/pull/649
+- https://github.com/serverless/components
+- https://github.com/vercel/next-learn
+- https://nextjs.org/learn/basics/create-nextjs-app
