@@ -45,6 +45,6 @@ if __name__ == '__main__':
     import json
     secrets = load_secrets()
     okta_client = OktaClient(domain=secrets.okta_domain, api_key=secrets.okta_api_key)
-    app = okta_client.find_app('test1')  # 'Hello World')
+    app = okta_client.find_app('Hello World')
     print(json.dumps(app, indent=4, sort_keys=True))
-    # okta_client.set_app_profile(app, data={'group_prefix': 'nydev-devops'})
+    # okta_client.set_app_profile(app, data={'group_prefix': 'nydev-example'})
