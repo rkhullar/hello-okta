@@ -30,6 +30,7 @@ Examples:
 - tld-cloud-purple
 
 #### include groups in access token
+##### [2021-12-11]
 After creating an application configure it under the "Sign On" tab to set the `groups` claim on the token. We want to
 include only the groups that are relevant to our application / project. 
 - group claims type: filter
@@ -54,6 +55,36 @@ Test the config using the Token Preview tab in the UI. The form has four inputs 
 - scopes: openid
 
 The preview should show two tabs for the `id_token` and `token`. The `token` should include the `groups` claim.
+
+##### [2022-01-03]
+Unfortunately there are flaws with the previous approach of filtering the groups claim for each application. The config
+under the sign on tab for the filter only applies to the id token, not the access token. The following walks through
+another approach for the group filtering.
+
+To start we still want to leverage our custom groups claim within the authorization server config. However, we will use
+an expression instead of a simple filter.
+```
+Groups.startsWith("OKTA", ((app.profile.group_prefix != null) ? app.profile.group_prefix : "tld"), 64)
+```
+
+The above expression filters the okta groups via dynamic prefix and limits the result set. If the application level
+`group_prefix` is available, then we use it. Otherwise, we default to a hardcoded org level prefix. `app.profile` refers
+to a dynamic map of application properties that can be managed programmatically via api key. It doesn't seem like that
+functionality currently exists on the UI, at least not at the time of this writing. There's a sample python script to
+set the `app.profile` [[link](backend-fastapi/spikes/app-profile-1.py)].
+
+Another option is the substitute `app.profile` with `appuser.profile` in the expression. The advantage would be that
+the required configuration to actually set the application level group prefix is already available in the UI. So there's
+no need to use an api token and script. The disadvantage is that this results in duplicate hard coded data between users.
+It also seems hacky to me since this config is really supposed to be at the application level. Using `appuser.profile`
+allows for the `group_prefix` to actually be changed for users accessing the same application.
+
+To use `appuser.profile` navigate to the profile editor for the application. Add a custom attribute for `group_prefix`
+and set the data type to `string`. For the display name I'd suggest `Group Prefix`. After creating the attribute, update
+the mapping for "Okta User -> {App} User" with the value for the group prefix. `"namespace-project" -> group_prefix`
+For reference here are two screenshots:
+- [attribute](docs/images/group-prefix-example.png)
+- [mapping](docs/images/hello-world-profile.png)
 
 #### links
 - https://developer.okta.com/docs/guides/protect-your-api/python/before-you-begin/
