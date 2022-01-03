@@ -70,7 +70,7 @@ Groups.startsWith("OKTA", ((app.profile.group_prefix != null) ? app.profile.grou
 The above expression filters the okta groups via dynamic prefix and limits the result set. If the application level
 `group_prefix` is available, then we use it. Otherwise, we default to a hardcoded org level prefix. `app.profile` refers
 to a dynamic map of application properties that can be managed programmatically via api key. It doesn't seem like that
-functionality currently exists on the UI, at least not at the time of this writing. There's a sample python script to
+functionality currently exists on the UI, at least not at the time of this writing. Here's an example python script to
 set the `app.profile` [[link](backend-fastapi/spikes/app-profile-1.py)].
 
 Another option is the substitute `app.profile` with `appuser.profile` in the expression. The advantage would be that
@@ -83,8 +83,8 @@ To use `appuser.profile` navigate to the profile editor for the application. Add
 and set the data type to `string`. For the display name I'd suggest `Group Prefix`. After creating the attribute, update
 the mapping for "Okta User -> {App} User" with the value for the group prefix. `"namespace-project" -> group_prefix`
 For reference here are two screenshots:
-- [attribute](docs/images/group-prefix-example.png)
-- [mapping](docs/images/hello-world-profile.png)
+- [attribute](docs/images/hello-world-profile.png)
+- [mapping](docs/images/group-prefix-example.png)
 
 #### links
 - https://developer.okta.com/docs/guides/protect-your-api/python/before-you-begin/
