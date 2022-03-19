@@ -16,6 +16,7 @@ echo $root
 # upload api lambda; publish new version
 # update cloudfront lambda@edge integrations
 # - have terraform ignore version drift?
+    - no, after updating the lambda function, terraform wants to update the integrations with the correct arns
 # - default lambda -> default behavior (origin request and response)
 # - api lambda -> api behavior (origin request only)
 # - default lambda -> data behavior (origin request and response)

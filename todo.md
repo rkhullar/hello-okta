@@ -6,8 +6,8 @@
 - [ ] improve nextjs project structure
   - move code under `src`
   - set build output to `dist` instead of `_next`
-- [ ] try django implementation or remove
-- [ ] archive `learn-nextjs` or move to its own repo
+- [x] try django implementation or remove
+- [x] archive `learn-nextjs` or move to its own repo
 - [ ] revisit terraform secret manager module
   - try to work around unknown value error without enable flag
   - or only use enable flag without ignore / preserve logic
