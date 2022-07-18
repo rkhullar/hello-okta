@@ -1,5 +1,5 @@
 module "lambda-role" {
-  source     = "../common/iam/role"
+  source     = "github.com/rkhullar/terraform-modules//aws/iam/role?ref=0.1.0"
   name       = "${var.prefix}-lambda-${var.suffix}"
   tags       = var.tags
   principals = [{ type = "Service", identifiers = ["lambda.amazonaws.com", "edgelambda.amazonaws.com"] }]

@@ -1,13 +1,14 @@
 #!/usr/bin/env sh
 
 # find root of subproject
-export root="$(dirname $0)/../frontend-nextjs"
-cd $root
+export root
+root="$(dirname "$0")/../frontend-nextjs"
+cd "$root" || exit
 export root=${PWD}
-echo $root
+echo "$root"
 
 rm -rf .next .serverless .serverless_nextjs
-serverless
+components-v1
 
 rm -rf archive && mkdir -p archive
 export archive_path="${root}/archive"

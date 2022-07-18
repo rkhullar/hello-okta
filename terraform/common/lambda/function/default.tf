@@ -11,7 +11,7 @@ resource "aws_lambda_function" "default" {
   source_code_hash = data.archive_file.template.output_base64sha256
 
   lifecycle {
-    ignore_changes = [filename, source_code_hash, last_modified]
+    ignore_changes = [filename, source_code_hash]
   }
 }
 

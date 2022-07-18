@@ -53,7 +53,7 @@ variable "enable_secrets" {
 
 output "buckets" {
   value = {
-    static = module.static-bucket.name
+    static = module.static-bucket.output["bucket"]
   }
 }
 
@@ -66,7 +66,7 @@ output "lambdas" {
 
 output "roles" {
   value = {
-    lambda = module.lambda-role.name
+    lambda = module.lambda-role.output["name"]
   }
 }
 
