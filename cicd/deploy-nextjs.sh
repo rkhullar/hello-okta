@@ -1,10 +1,11 @@
 #!/usr/bin/env sh
 
 # find root of subproject
-export root="$(dirname $0)/../frontend-nextjs"
-cd $root
+export root
+root="$(dirname "$0")/../frontend-nextjs"
+cd "$root" || exit
 export root=${PWD}
-echo $root
+echo "$root"
 
 # TODO
 # unzip assets; emtpy static bucket; sync to static bucket
