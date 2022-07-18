@@ -1,9 +1,9 @@
 ## Hello Okta
 
 #### tool versions
-- python 3.8.12
-- node 16.13.1
-- terraform 1.1.0
+- python 3.8.13
+- node 16.15.1
+- terraform 1.2.5
 
 #### useful commands
 - initialize frontend code
