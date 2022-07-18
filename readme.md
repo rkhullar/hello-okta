@@ -7,12 +7,23 @@
 
 #### useful commands
 - initialize frontend code
-```sh
+```shell
 npx create-next-app frontend-nextjs
 cd frontend-nextjs
 touch tsconfig.json
 npm install --save-dev typescript @types/react @types/node
 npm run dev
+```
+
+- upgrade global npm
+```shell
+npm install -g npm
+```
+
+- install serverless framework
+```shell
+npm install -g @serverless/cli
+# asdf reshim nodejs
 ```
 
 ### okta notes
