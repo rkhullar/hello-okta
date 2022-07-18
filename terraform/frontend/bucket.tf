@@ -3,9 +3,10 @@ locals {
 }
 
 module "static-bucket" {
-  source        = "../common/s3/bucket"
+  source        = "github.com/rkhullar/terraform-modules//aws/s3/bucket?ref=0.1.1"
   name          = local.static_bucket
   tags          = var.tags
+  access        = "private"
   policy        = data.aws_iam_policy_document.static-bucket-policy.json
   attach_policy = true
 }
