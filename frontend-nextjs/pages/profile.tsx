@@ -12,6 +12,8 @@ export default function Profile() {
       <section>
         <p>profile</p>
         {session && JSON.stringify(session.user)}
+        <p>id_token</p>
+        {session && session.id_token}
         <p>access_token</p>
         {session && session.access_token}
       </section>
