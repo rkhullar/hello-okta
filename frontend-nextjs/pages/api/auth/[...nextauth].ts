@@ -14,7 +14,9 @@ const providers = [
   OktaProvider({
     clientId: process.env.OKTA_CLIENT_ID,
     clientSecret: process.env.OKTA_CLIENT_SECRET,
-    issuer: read_issuer_url()
+    issuer: read_issuer_url(),
+    // authorization: { params: { scope: "openid email profile" } }, // groups not working
+    // idToken: true
   })
 ]
 
