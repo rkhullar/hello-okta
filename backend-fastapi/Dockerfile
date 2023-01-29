@@ -1,9 +1,10 @@
 FROM python:3.8.12-slim
 WORKDIR /root
 COPY Pipfile ./
-RUN pip install pipenv                   \
-    && pipenv lock -r > requirements.txt \
-    && pip install -r requirements.txt   \
+RUN pip install pipenv                           \
+    && pipenv lock                               \
+    && pipenv requirements > requirements.txt    \
+    && pip install -r requirements.txt           \
     && rm requirements.txt
 COPY *.py ./
 COPY util/ util/
