@@ -28,6 +28,16 @@ npm install -g @serverless/cli
 
 ### okta notes
 
+#### oidc web app config
+##### [2023-01-29]
+- grant types
+  - Authorization Code
+  - Refresh Token
+- allowed signin urls
+  - http://localhost:8000/authorization-code/callback
+  - http://localhost:3000/api/auth/callback/okta
+- require PKCE: disabled
+
 #### group naming convention
 I've opted for the following pattern to avoid name collisions between teams:
 {namespace}-{project}-{name}
