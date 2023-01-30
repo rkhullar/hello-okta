@@ -20,7 +20,7 @@ const providers = [
     idToken: true,
     checks: ['pkce', 'state'],
     client: {
-      token_endpoint_auth_method: "none"
+      token_endpoint_auth_method: 'none'
     }
   })
 ]
