@@ -14,10 +14,14 @@ const providers = [
   OktaProvider({
     clientId: process.env.OKTA_CLIENT_ID,
     clientSecret: '',
+    // wellKnown: 'https://auth.nydev.me/oauth2/default/.well-known/openid-configuration',
     issuer: read_issuer_url(),
     authorization: { params: { scope: 'openid email profile offline_access' } },
     idToken: true,
-    checks: ['pkce']
+    checks: ['pkce', 'state'],
+    client: {
+      token_endpoint_auth_method: "none"
+    }
   })
 ]
 
