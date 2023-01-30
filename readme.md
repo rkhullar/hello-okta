@@ -15,6 +15,17 @@ npm install --save-dev typescript @types/react @types/node
 npm run dev
 ```
 
+##### 2023-01-29
+```shell
+cd frontend
+npx create-next-app nextjs --ts --use-npm --eslint
+cd nextjs
+npm install @okta/okta-auth-js
+npm install @okta/okta-react
+#npm install react-router-dom@5
+
+```
+
 - upgrade global npm
 ```shell
 npm install -g npm
