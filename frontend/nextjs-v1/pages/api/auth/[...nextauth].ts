@@ -13,10 +13,11 @@ function read_issuer_url() {
 const providers = [
   OktaProvider({
     clientId: process.env.OKTA_CLIENT_ID,
-    clientSecret: process.env.OKTA_CLIENT_SECRET,
+    clientSecret: '',
     issuer: read_issuer_url(),
-    // authorization: { params: { scope: "openid email profile" } }, // groups not working
-    // idToken: true
+    authorization: { params: { scope: 'openid email profile offline_access' } },
+    idToken: true,
+    checks: ['pkce']
   })
 ]
 
