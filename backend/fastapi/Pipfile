@@ -16,4 +16,4 @@ cryptography = "~=36.0.0"
 isort = "~=5.10.0"
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"

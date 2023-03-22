@@ -1,4 +1,4 @@
-FROM python:3.8.12-slim
+FROM python:3.9-slim
 WORKDIR /root
 COPY Pipfile ./
 RUN pip install pipenv                           \
@@ -8,4 +8,4 @@ RUN pip install pipenv                           \
     && rm requirements.txt
 COPY *.py ./
 COPY util/ util/
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
