@@ -14,7 +14,7 @@ const Layout: React.FunctionComponent<Props> = ({ children, home }) => {
   if (session)
     button = <button onClick={() => signOut()}>Logout</button>
   else
-    button = <button onClick={() => signIn()}>Login</button>
+    button = <button onClick={() => signIn('okta')}>Login</button>
   return (
     <>
       <Head>

@@ -1,9 +1,2 @@
 source_up
-export DEBUG=1
-export OKTA_DOMAIN='{}'
-export OKTA_CLIENT_ID='{}'
-export OKTA_CLIENT_SECRET='{}'
-export NEXTAUTH_URL='http://localhost:3000'
-export NEXTAUTH_SECRET='{openssl rand -base64 32}'
-export FASTAPI_URL='http://localhost:8000'
-export ALLOWED_ORIGINS='["http://localhost:3000"]'
+source_env 'local.env'

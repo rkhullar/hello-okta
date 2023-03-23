@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import dataclass
 
 import httpx
 
@@ -14,6 +15,15 @@ def wrapped_async_httpx(method: str, *args, **kwargs):
     event_loop = asyncio.get_event_loop()
     future = async_httpx(method, *args, **kwargs)
     return event_loop.run_until_complete(future)
+
+
+@dataclass
+class BearerAuth(httpx.Auth):
+    token: str
+
+    def auth_flow(self, request):
+        request.headers['Authorization'] = f'Bearer {self.token}'
+        yield request
 
 
 if __name__ == '__main__':

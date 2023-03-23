@@ -1,23 +1,16 @@
 import logging
 from urllib.parse import urlencode
 
+from httpx import HTTPStatusError
+from okta import OktaClient
+
+from config import Settings
+from depends import get_base_url, get_okta_client, get_settings
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
-from httpx import HTTPStatusError
-
-from config import Settings
-from depends import get_base_url, get_okta_client, get_settings, get_user
-from okta import OktaClient
-from schema import User
-from util import async_httpx
 
 router = APIRouter()
-
-
-@router.get('/', response_class=RedirectResponse, status_code=302)
-async def index():
-    return 'docs'
 
 
 @router.post('/token')
@@ -51,24 +44,3 @@ async def callback(code: str, okta_client: OktaClient = Depends(get_okta_client)
     exchange = await okta_client.token_exchange(code=code, redirect_uri=redirect_uri)
     # TODO: redirect if using login flow instead of token flow?
     return {key: exchange[key] for key in ['token_type', 'access_token']}
-
-
-@router.get('/profile', response_model=User)
-async def profile(user: User = Depends(get_user)):
-    return user
-
-
-@router.get('/hello')
-async def hello(base_url: str = Depends(get_base_url)):
-    result = list()
-    result.append({'message': 'hello'})
-    world_url = f'{base_url}/world'
-    response = await async_httpx(method='get', url=world_url)
-    response.raise_for_status()
-    result.append(response.json())
-    return result
-
-
-@router.get('/world')
-async def world():
-    return {'message': 'world'}

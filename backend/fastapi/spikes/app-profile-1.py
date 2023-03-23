@@ -1,7 +1,9 @@
-from util import load_secrets
 from dataclasses import dataclass
 from typing import Iterator
+
 import httpx
+
+from util import load_secrets
 
 
 @dataclass

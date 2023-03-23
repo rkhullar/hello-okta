@@ -1,8 +1,8 @@
 ## Hello Okta
 
 #### tool versions
-- python 3.8.13
-- node 16.15.1
+- python 3.9.16
+- node 16.19.0
 - terraform 1.2.5
 
 #### useful commands
@@ -13,6 +13,17 @@ cd frontend-nextjs
 touch tsconfig.json
 npm install --save-dev typescript @types/react @types/node
 npm run dev
+```
+
+##### 2023-01-29
+```shell
+cd frontend
+npx create-next-app nextjs --ts --use-npm --eslint
+cd nextjs
+npm install @okta/okta-auth-js
+npm install @okta/okta-react
+#npm install react-router-dom@5
+
 ```
 
 - upgrade global npm
@@ -27,6 +38,11 @@ npm install -g @serverless/cli
 ```
 
 ### okta notes
+
+#### 2023-03-22
+- switch to single page app client without client secret; pkce enabled
+- update fastapi openapi auth to redirect to hosted login; enables social login
+- `groups` are included in identity token / user info request
 
 #### oidc web app config
 ##### [2023-01-29]

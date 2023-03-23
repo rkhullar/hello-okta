@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 import OktaProvider from 'next-auth/providers/okta'
-import { NextApiRequest, NextApiResponse } from 'next'
+// import { NextApiRequest, NextApiResponse } from 'next'
 
 function read_issuer_url() {
   const default_issuer = `https://${process.env.OKTA_DOMAIN}/oauth2/default`
@@ -13,10 +13,15 @@ function read_issuer_url() {
 const providers = [
   OktaProvider({
     clientId: process.env.OKTA_CLIENT_ID,
-    clientSecret: process.env.OKTA_CLIENT_SECRET,
+    clientSecret: '',
+    // wellKnown: 'https://auth.nydev.me/oauth2/default/.well-known/openid-configuration',
     issuer: read_issuer_url(),
-    // authorization: { params: { scope: "openid email profile" } }, // groups not working
-    // idToken: true
+    authorization: { params: { scope: 'openid email profile offline_access' } },
+    idToken: true,
+    checks: ['pkce', 'state'], // nonce
+    client: {
+      token_endpoint_auth_method: 'none'
+    }
   })
 ]
 

@@ -25,6 +25,7 @@ class OktaClient:
 
     @property
     def authenticate_url(self) -> str:
+        # NOTE: removed in OIE?
         return f'https://{self.domain}/api/v1/authn'
 
     @property
@@ -34,6 +35,10 @@ class OktaClient:
     @property
     def token_url(self) -> str:
         return self.metadata['token_endpoint']
+
+    @property
+    def userinfo_url(self) -> str:
+        return self.metadata['userinfo_endpoint']
 
     @property
     def keys_url(self) -> str:
