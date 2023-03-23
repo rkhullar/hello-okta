@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 import OktaProvider from 'next-auth/providers/okta'
-import { NextApiRequest, NextApiResponse } from 'next'
+// import { NextApiRequest, NextApiResponse } from 'next'
 
 function read_issuer_url() {
   const default_issuer = `https://${process.env.OKTA_DOMAIN}/oauth2/default`
@@ -18,7 +18,7 @@ const providers = [
     issuer: read_issuer_url(),
     authorization: { params: { scope: 'openid email profile offline_access' } },
     idToken: true,
-    checks: ['pkce', 'state'],
+    checks: ['pkce', 'state'], // nonce
     client: {
       token_endpoint_auth_method: 'none'
     }
