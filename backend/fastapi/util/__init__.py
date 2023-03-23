@@ -1,2 +1,2 @@
-from .httpx import async_httpx
+from .httpx import BearerAuth, async_httpx
 from .jwt import TokenData, TokenFactory

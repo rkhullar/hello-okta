@@ -1,17 +1,16 @@
 import uvicorn
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from config import Settings
-from okta import OktaClient
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from okta_flow import OktaAuthCodeBearer
 from router import router
 
 
-def link_okta(app: FastAPI, settings: Settings = None) -> OktaClient:
+def link_okta(app: FastAPI, settings: Settings = None) -> OktaAuthCodeBearer:
     settings = settings or app.extra.get('settings')
-    okta_client = OktaClient(domain=settings.okta_domain, client_id=settings.okta_client_id,
-                             client_secret=settings.okta_client_secret)
-    app.extra['okta_client'] = okta_client
+    okta_client = OktaAuthCodeBearer(domain=settings.okta_domain)
+    app.extra['okta_flow'] = okta_client
     return okta_client
 
 
@@ -22,10 +21,18 @@ def init_cors(app: FastAPI, settings: Settings = None):
 
 
 def create_app(settings: Settings, test: bool = False) -> FastAPI:
-    app = FastAPI(settings=settings)
+    app = FastAPI(
+        settings=settings,
+        swagger_ui_init_oauth={
+            'clientId': settings.okta_client_id,
+            'usePkceWithAuthorizationCodeGrant': True,
+            'scopes': ' '.join(['openid', 'profile', 'email'])
+        }
+    )
+
     app.include_router(router)
     if not test:
-        link_okta(app)
+        # link_okta(app)
         init_cors(app)
     return app
 
